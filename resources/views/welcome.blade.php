@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>EasyInventory - Inventory Management</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -20,7 +20,69 @@
         @endif
     </head>
     <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
-        <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
+        <header class="w-full max-w-4xl mb-12">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl lg:text-4xl font-bold">📦 EasyInventory</h1>
+                    <p class="text-sm text-[#706f6c] dark:text-[#A1A09A] mt-1">Simple Inventory Management System</p>
+                </div>
+
+                @if (Route::has('login'))
+                    <nav class="flex items-center gap-4">
+                        @auth
+                            <a href="{{ url('/dashboard') }}" class="px-5 py-2 bg-[#1b1b18] text-white hover:bg-black rounded-sm text-sm font-medium">
+                                Dashboard
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}" class="px-5 py-2 text-[#1b1b18] dark:text-[#EDEDEC] hover:underline text-sm">Sign In</a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="px-5 py-2 bg-[#1b1b18] text-white hover:bg-black rounded-sm text-sm font-medium">Create Account</a>
+                            @endif
+                        @endauth
+                    </nav>
+                @endif
+            </div>
+        </header>
+
+        <main class="flex-1 flex flex-col items-center justify-center text-center max-w-2xl">
+            <h2 class="text-5xl lg:text-6xl font-bold mb-6">Welcome to EasyInventory</h2>
+            <p class="text-lg text-[#706f6c] dark:text-[#A1A09A] mb-8 leading-relaxed">
+                Manage your store's inventory efficiently. Track products, monitor stock levels, reduce errors, and grow your business with ease.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 w-full">
+                <div class="p-6 bg-white dark:bg-[#161615] rounded-lg shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A]">
+                    <div class="text-3xl mb-3">📊</div>
+                    <h3 class="font-bold mb-2">Real-time Monitoring</h3>
+                    <p class="text-sm text-[#706f6c] dark:text-[#A1A09A]">Track your inventory in real-time</p>
+                </div>
+                <div class="p-6 bg-white dark:bg-[#161615] rounded-lg shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A]">
+                    <div class="text-3xl mb-3">⚠️</div>
+                    <h3 class="font-bold mb-2">Low Stock Alerts</h3>
+                    <p class="text-sm text-[#706f6c] dark:text-[#A1A09A]">Get notified when items run low</p>
+                </div>
+                <div class="p-6 bg-white dark:bg-[#161615] rounded-lg shadow-sm border border-[#e3e3e0] dark:border-[#3E3E3A]">
+                    <div class="text-3xl mb-3">🔐</div>
+                    <h3 class="font-bold mb-2">Secure Access</h3>
+                    <p class="text-sm text-[#706f6c] dark:text-[#A1A09A]">Protect your inventory data</p>
+                </div>
+            </div>
+
+            @guest
+                <div class="flex gap-4 justify-center flex-wrap">
+                    <a href="{{ route('login') }}" class="px-8 py-3 bg-[#1b1b18] text-white hover:bg-black rounded-sm text-base font-medium">Sign In</a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="px-8 py-3 border-2 border-[#1b1b18] text-[#1b1b18] hover:bg-[#f9f9f9] rounded-sm text-base font-medium">Get Started</a>
+                    @endif
+                </div>
+            @endguest
+        </main>
+
+        <footer class="mt-12 text-center text-sm text-[#706f6c] dark:text-[#A1A09A]">
+            <p>&copy; {{ date('Y') }} EasyInventory. Manage smarter, grow faster.</p>
+        </footer>
+    </body>
+</html>
             @if (Route::has('login'))
                 <nav class="flex items-center justify-end gap-4">
                     @auth
