@@ -14,8 +14,7 @@ class AdminUserController extends Controller
     public function index(): View
     {
         return view('users.index', [
-            'users' => User::query()->latest()->paginate(10),
-            'adminCount' => User::where('role', 'admin')->count(),
+            'users' => User::query()->where('role', 'staff')->latest()->paginate(10),
             'staffCount' => User::where('role', 'staff')->count(),
         ]);
     }

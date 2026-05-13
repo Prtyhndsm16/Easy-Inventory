@@ -6,13 +6,13 @@
                 <h2 class="section-title">
                     User Management
                 </h2>
-                <p class="section-subtitle">Manage staff and admin accounts for the inventory system.</p>
+                <p class="section-subtitle">Manage staff accounts for the inventory system.</p>
             </div>
             <a href="{{ route('admin.users.create') }}" class="btn-primary">
                 <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                     <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
-                Add User
+                Add Staff
             </a>
         </div>
     </x-slot>
@@ -44,15 +44,15 @@
                             </svg>
                         </span>
                     </div>
-                    <p class="stat-note">All registered accounts in the system</p>
+                    <p class="stat-note">Staff accounts in the system</p>
                 </div>
 
                 <div class="stat-card">
                     <div class="flex items-start justify-between gap-4">
                         <div>
-                            <p class="stat-label">Role Distribution</p>
+                            <p class="stat-label">Staff Accounts</p>
                             <p class="mt-3 text-2xl font-semibold text-gray-950">
-                                {{ number_format($adminCount) }} admin / {{ number_format($staffCount) }} staff
+                                {{ number_format($staffCount) }} active staff
                             </p>
                         </div>
                         <span class="stat-icon bg-blue-100 text-blue-700">
@@ -61,7 +61,7 @@
                             </svg>
                         </span>
                     </div>
-                    <p class="stat-note">Only admins can create and edit user accounts</p>
+                    <p class="stat-note">Only staff users are shown in this list</p>
                 </div>
             </section>
 
@@ -93,7 +93,7 @@
                                     </td>
                                     <td class="text-gray-600">{{ $user->email }}</td>
                                     <td>
-                                        <span class="badge {{ $user->role === 'admin' ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700' }}">
+                                        <span class="badge bg-blue-100 text-blue-700">
                                             {{ ucfirst($user->role) }}
                                         </span>
                                     </td>
@@ -116,8 +116,8 @@
                             @empty
                                 <tr>
                                     <td colspan="5" class="py-12 text-center">
-                                        <p class="font-semibold text-gray-900">No users found.</p>
-                                        <p class="mt-1 text-sm text-gray-500">Create a user account to start managing access.</p>
+                                        <p class="font-semibold text-gray-900">No staff users found.</p>
+                                        <p class="mt-1 text-sm text-gray-500">Create a staff account to start managing access.</p>
                                     </td>
                                 </tr>
                             @endforelse
