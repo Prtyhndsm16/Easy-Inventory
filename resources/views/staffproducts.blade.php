@@ -8,7 +8,7 @@
                 </h2>
                 <p class="section-subtitle">Search and monitor inventory records in read-only mode.</p>
             </div>
-            <a href="{{ route('staff.dashboard') }}" class="btn-muted">
+            <a href="{{ route('staff.dashboard') }}" class="btn-muted w-full sm:w-auto">
                 Back to Dashboard
             </a>
         </div>
@@ -17,7 +17,7 @@
     <div class="app-page">
         <div class="page-container space-y-6">
             <section class="panel">
-                <form method="GET" action="{{ route('staff.products.index') }}" class="grid gap-4 p-5 lg:grid-cols-[1fr_220px_auto] sm:p-6">
+                <form method="GET" action="{{ route('staff.products.index') }}" class="grid gap-4 p-4 sm:p-6 lg:grid-cols-[1fr_220px_auto]">
                     <div class="form-field">
                         <label for="search" class="block text-sm font-semibold text-gray-700">Search inventory</label>
                         <input
@@ -42,7 +42,7 @@
                         </select>
                     </div>
 
-                    <div class="flex flex-wrap items-end gap-3">
+                    <div class="filter-actions">
                         <button type="submit" class="btn-primary-blue">
                             Apply
                         </button>

@@ -20,14 +20,14 @@
                 </p>
             </div>
 
-            <div class="flex flex-wrap gap-3">
-                <a href="{{ route('admin.products.create') }}" class="btn-primary">
+            <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <a href="{{ route('admin.products.create') }}" class="btn-primary w-full sm:w-auto">
                     <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                         <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
                     Add Product
                 </a>
-                <a href="{{ route('admin.products.index') }}" class="btn-muted">
+                <a href="{{ route('admin.products.index') }}" class="btn-muted w-full sm:w-auto">
                     <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                         <path d="M4 6h12M4 10h12M4 14h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>

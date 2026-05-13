@@ -14,18 +14,18 @@
         </div>
     @endif
 
-    <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
-        <form method="POST" action="{{ route('verification.send') }}">
+    <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+        <form method="POST" action="{{ route('verification.send') }}" class="w-full sm:w-auto">
             @csrf
 
             <div>
-                <x-primary-button>
+                <x-primary-button class="w-full sm:w-auto">
                     {{ __('Resend Verification Email') }}
                 </x-primary-button>
             </div>
         </form>
 
-        <form method="POST" action="{{ route('logout') }}">
+        <form method="POST" action="{{ route('logout') }}" class="w-full text-center sm:w-auto sm:text-left">
             @csrf
 
             <button type="submit" class="rounded-md text-sm font-medium text-gray-600 hover:text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">

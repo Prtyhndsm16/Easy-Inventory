@@ -8,7 +8,7 @@
                 </h2>
                 <p class="section-subtitle">Create a product record with stock, pricing, supplier, and barcode details.</p>
             </div>
-            <a href="{{ route('admin.products.index') }}" class="btn-muted">
+            <a href="{{ route('admin.products.index') }}" class="btn-muted w-full sm:w-auto">
                 Back to Products
             </a>
         </div>
@@ -24,7 +24,7 @@
                     @include('products.partials.form-fields', ['product' => $product])
                     </div>
 
-                    <div class="flex items-center justify-end gap-3 border-t border-gray-100 px-5 py-4 sm:px-6">
+                    <div class="form-actions-end">
                         <a href="{{ route('admin.products.index') }}" class="btn-muted">
                             Cancel
                         </a>

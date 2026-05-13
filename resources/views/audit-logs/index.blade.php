@@ -12,7 +12,7 @@
     <div class="app-page">
         <div class="page-container space-y-6">
             <section class="panel">
-                <form method="GET" action="{{ route('admin.audit-logs.index') }}" class="grid gap-4 p-5 lg:grid-cols-[1fr_220px_180px_auto] sm:p-6">
+                <form method="GET" action="{{ route('admin.audit-logs.index') }}" class="grid gap-4 p-4 sm:p-6 lg:grid-cols-[1fr_220px_180px_auto]">
                     <div class="form-field">
                         <label for="search" class="block text-sm font-semibold text-gray-700">Search logs</label>
                         <input
@@ -45,7 +45,7 @@
                         </select>
                     </div>
 
-                    <div class="flex flex-wrap items-end gap-3">
+                    <div class="filter-actions">
                         <button type="submit" class="btn-primary">Apply</button>
                         @if ($search !== '' || $event !== '' || $status !== '')
                             <a href="{{ route('admin.audit-logs.index') }}" class="btn-muted">Reset</a>

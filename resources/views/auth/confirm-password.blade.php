@@ -23,8 +23,8 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <div class="flex justify-end mt-4">
-            <x-primary-button>
+        <div class="mt-4 flex sm:justify-end">
+            <x-primary-button class="w-full sm:w-auto">
                 {{ __('Confirm') }}
             </x-primary-button>
         </div>

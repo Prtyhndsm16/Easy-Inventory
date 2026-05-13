@@ -8,7 +8,7 @@
                 </h2>
                 <p class="section-subtitle">Search, filter, update, and maintain inventory records.</p>
             </div>
-            <a href="{{ route('admin.products.create') }}" class="btn-primary">
+            <a href="{{ route('admin.products.create') }}" class="btn-primary w-full sm:w-auto">
                 <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                     <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>
@@ -26,7 +26,7 @@
             @endif
 
             <section class="panel">
-                <form method="GET" action="{{ route('admin.products.index') }}" class="grid gap-4 p-5 lg:grid-cols-[1fr_220px_auto] sm:p-6">
+                <form method="GET" action="{{ route('admin.products.index') }}" class="grid gap-4 p-4 sm:p-6 lg:grid-cols-[1fr_220px_auto]">
                     <div class="form-field">
                         <label for="search" class="block text-sm font-semibold text-gray-700">Search products</label>
                         <input
@@ -51,7 +51,7 @@
                         </select>
                     </div>
 
-                    <div class="flex flex-wrap items-end gap-3">
+                    <div class="filter-actions">
                         <button type="submit" class="btn-primary">
                             Apply
                         </button>

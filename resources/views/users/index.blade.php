@@ -8,7 +8,7 @@
                 </h2>
                 <p class="section-subtitle">Manage staff accounts for the inventory system.</p>
             </div>
-            <a href="{{ route('admin.users.create') }}" class="btn-primary">
+            <a href="{{ route('admin.users.create') }}" class="btn-primary w-full sm:w-auto">
                 <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                     <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>

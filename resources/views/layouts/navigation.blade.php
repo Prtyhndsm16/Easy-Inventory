@@ -1,8 +1,8 @@
 <nav x-data="{ open: false }" class="sticky top-0 z-40 border-b border-gray-200/80 bg-white/90 backdrop-blur">
     <!-- Primary Navigation Menu -->
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
+        <div class="flex h-16 justify-between">
+            <div class="flex min-w-0">
                 <!-- Logo -->
                 <div class="flex shrink-0 items-center">
                     <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
@@ -17,7 +17,7 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden items-center gap-2 sm:ms-8 sm:flex">
+                <div class="hidden items-center gap-2 lg:ms-8 lg:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard', 'admin.dashboard', 'staff.dashboard')">
                         {{ Auth::user()->isAdmin() ? __('Admin Dashboard') : __('Staff Dashboard') }}
                     </x-nav-link>
@@ -43,15 +43,15 @@
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden lg:ms-6 lg:flex lg:items-center">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center gap-3 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm transition hover:bg-gray-50 hover:text-gray-950 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
                             <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-xs font-semibold uppercase text-gray-700">
                                 {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                             </span>
-                            <span class="text-left">
-                                <span class="block">{{ Auth::user()->name }}</span>
+                            <span class="min-w-0 text-left">
+                                <span class="block max-w-40 truncate">{{ Auth::user()->name }}</span>
                                 <span class="block text-xs font-medium text-gray-500">{{ ucfirst(Auth::user()->role) }}</span>
                             </span>
 
@@ -83,7 +83,7 @@
             </div>
 
             <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
+            <div class="-me-2 flex items-center lg:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -95,7 +95,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden border-t border-gray-100 bg-white sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden border-t border-gray-100 bg-white lg:hidden">
         <div class="space-y-1 pb-3 pt-2">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard', 'admin.dashboard', 'staff.dashboard')">
                 {{ Auth::user()->isAdmin() ? __('Admin Dashboard') : __('Staff Dashboard') }}
@@ -122,13 +122,13 @@
 
         <!-- Responsive Settings Options -->
         <div class="border-t border-gray-200 pb-1 pt-4">
-            <div class="flex items-center gap-3 px-4">
+            <div class="flex min-w-0 items-center gap-3 px-4">
                 <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-sm font-semibold uppercase text-emerald-800">
                     {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                 </span>
-                <div>
-                    <div class="text-base font-semibold text-gray-900">{{ Auth::user()->name }}</div>
-                    <div class="text-sm font-medium text-gray-500">{{ Auth::user()->email }}</div>
+                <div class="min-w-0">
+                    <div class="truncate text-base font-semibold text-gray-900">{{ Auth::user()->name }}</div>
+                    <div class="truncate text-sm font-medium text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
             </div>
 

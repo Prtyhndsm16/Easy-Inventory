@@ -19,7 +19,7 @@
                 </p>
             </div>
 
-            <a href="{{ route('staff.products.index') }}" class="btn-primary-blue">
+            <a href="{{ route('staff.products.index') }}" class="btn-primary-blue w-full sm:w-auto">
                 <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                     <path d="M4 6h12M4 10h12M4 14h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 </svg>

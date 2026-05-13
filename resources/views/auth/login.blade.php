@@ -37,14 +37,14 @@
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
+        <div class="mt-4 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
             @if (Route::has('password.request'))
-                <a class="rounded-md text-sm font-medium text-gray-600 hover:text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2" href="{{ route('password.request') }}">
+                <a class="text-center text-sm font-medium text-gray-600 hover:text-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 sm:text-left" href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
 
-            <x-primary-button class="ms-3">
+            <x-primary-button class="w-full sm:w-auto">
                 {{ __('Log in') }}
             </x-primary-button>
         </div>

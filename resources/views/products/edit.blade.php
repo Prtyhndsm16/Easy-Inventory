@@ -8,7 +8,7 @@
                 </h2>
                 <p class="section-subtitle">Update product details while keeping inventory records searchable.</p>
             </div>
-            <a href="{{ route('admin.products.index') }}" class="btn-muted">
+            <a href="{{ route('admin.products.index') }}" class="btn-muted w-full sm:w-auto">
                 Back to Products
             </a>
         </div>
@@ -30,7 +30,7 @@
                     @include('products.partials.form-fields', ['product' => $product])
                     </div>
 
-                    <div class="flex flex-col gap-3 border-t border-gray-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+                    <div class="form-actions-between">
                         <button
                             type="submit"
                             form="delete-product-form"
@@ -40,7 +40,7 @@
                             Delete Product
                         </button>
 
-                        <div class="flex flex-wrap items-center gap-3">
+                        <div class="form-action-group">
                             <a href="{{ route('admin.products.index') }}" class="btn-muted">
                                 Cancel
                             </a>
