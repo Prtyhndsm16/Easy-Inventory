@@ -1,5 +1,10 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
+    <div class="mb-6">
+        <h1 class="text-xl font-semibold text-gray-950">Confirm password</h1>
+        <p class="mt-1 text-sm text-gray-500">This protected action needs your password.</p>
+    </div>
+
+    <div class="mb-4 text-sm leading-6 text-gray-600">
         {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
     </div>
 

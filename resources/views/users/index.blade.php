@@ -1,20 +1,24 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-                <p class="text-sm font-medium text-emerald-700">Admin Access</p>
-                <h2 class="text-2xl font-semibold leading-tight text-gray-900">
+                <p class="section-kicker">Admin Access</p>
+                <h2 class="section-title">
                     User Management
                 </h2>
+                <p class="section-subtitle">Manage staff and admin accounts for the inventory system.</p>
             </div>
-            <a href="{{ route('admin.users.create') }}" class="inline-flex items-center rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700">
+            <a href="{{ route('admin.users.create') }}" class="btn-primary">
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
                 Add User
             </a>
         </div>
     </x-slot>
 
-    <div class="py-8">
-        <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+    <div class="app-page">
+        <div class="page-container space-y-6">
             @if (session('status'))
                 <div class="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
                     {{ session('status') }}
@@ -28,63 +32,81 @@
             @endif
 
             <section class="grid gap-4 sm:grid-cols-2">
-                <div class="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
-                    <p class="text-sm font-medium text-gray-500">Total Users</p>
-                    <p class="mt-3 text-3xl font-semibold text-gray-950">{{ number_format($users->total()) }}</p>
-                    <p class="mt-2 text-sm text-gray-500">All registered accounts in the system</p>
+                <div class="stat-card">
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <p class="stat-label">Total Users</p>
+                            <p class="stat-value">{{ number_format($users->total()) }}</p>
+                        </div>
+                        <span class="stat-icon bg-emerald-100 text-emerald-700">
+                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                                <path d="M7.5 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM13 17a5.5 5.5 0 0 0-11 0M14 8v5M16.5 10.5h-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <p class="stat-note">All registered accounts in the system</p>
                 </div>
 
-                <div class="rounded-lg border border-blue-200 bg-blue-50 p-5 shadow-sm">
-                    <p class="text-sm font-medium text-blue-700">Role Distribution</p>
-                    <p class="mt-3 text-lg font-semibold text-blue-900">
-                        {{ number_format($adminCount) }} admin / {{ number_format($staffCount) }} staff
-                    </p>
-                    <p class="mt-2 text-sm text-blue-700">Only admins can create new user accounts.</p>
+                <div class="stat-card">
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <p class="stat-label">Role Distribution</p>
+                            <p class="mt-3 text-2xl font-semibold text-gray-950">
+                                {{ number_format($adminCount) }} admin / {{ number_format($staffCount) }} staff
+                            </p>
+                        </div>
+                        <span class="stat-icon bg-blue-100 text-blue-700">
+                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                                <path d="M4 6h12M4 10h12M4 14h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <p class="stat-note">Only admins can create and edit user accounts</p>
                 </div>
             </section>
 
-            <section class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                <div class="border-b border-gray-100 px-6 py-4">
+            <section class="table-shell">
+                <div class="panel-header">
                     <h3 class="text-lg font-semibold text-gray-950">System Users</h3>
-                    <p class="mt-1 text-sm text-gray-500">Create staff accounts here instead of public registration.</p>
+                    <p class="section-subtitle">Create staff accounts here instead of public registration.</p>
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-100 text-sm">
-                        <thead class="bg-gray-50 text-left text-xs font-semibold uppercase tracking-normal text-gray-500">
+                    <table class="data-table">
+                        <thead>
                             <tr>
-                                <th class="px-6 py-3">Name</th>
-                                <th class="px-6 py-3">Email</th>
-                                <th class="px-6 py-3">Role</th>
-                                <th class="px-6 py-3">Created</th>
-                                <th class="px-6 py-3 text-right">Actions</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Created</th>
+                                <th class="text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-100">
+                        <tbody>
                             @forelse ($users as $user)
                                 <tr>
-                                    <td class="px-6 py-4">
-                                        <div class="font-medium text-gray-900">{{ $user->name }}</div>
+                                    <td>
+                                        <div class="font-semibold text-gray-950">{{ $user->name }}</div>
                                         @if (auth()->id() === $user->id)
-                                            <div class="text-xs text-emerald-700">Current account</div>
+                                            <div class="text-xs font-medium text-emerald-700">Current account</div>
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 text-gray-600">{{ $user->email }}</td>
-                                    <td class="px-6 py-4">
-                                        <span class="rounded-full px-2.5 py-1 text-xs font-semibold {{ $user->role === 'admin' ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700' }}">
+                                    <td class="text-gray-600">{{ $user->email }}</td>
+                                    <td>
+                                        <span class="badge {{ $user->role === 'admin' ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700' }}">
                                             {{ ucfirst($user->role) }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 text-gray-600">{{ $user->created_at->format('M d, Y') }}</td>
-                                    <td class="px-6 py-4">
+                                    <td class="text-gray-600">{{ $user->created_at->format('M d, Y') }}</td>
+                                    <td>
                                         <div class="flex justify-end gap-2">
-                                            <a href="{{ route('admin.users.edit', $user) }}" class="inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50">
+                                            <a href="{{ route('admin.users.edit', $user) }}" class="inline-flex items-center rounded-lg border border-gray-300 px-3 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50">
                                                 Edit
                                             </a>
                                             <form method="POST" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('Delete this user account?');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="inline-flex items-center rounded-md border border-red-200 px-3 py-2 text-xs font-medium text-red-700 hover:bg-red-50">
+                                                <button type="submit" class="inline-flex items-center rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-700 transition hover:bg-red-50">
                                                     Delete
                                                 </button>
                                             </form>
@@ -93,8 +115,9 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="px-6 py-12 text-center text-gray-500">
-                                        No users found yet.
+                                    <td colspan="5" class="py-12 text-center">
+                                        <p class="font-semibold text-gray-900">No users found.</p>
+                                        <p class="mt-1 text-sm text-gray-500">Create a user account to start managing access.</p>
                                     </td>
                                 </tr>
                             @endforelse
