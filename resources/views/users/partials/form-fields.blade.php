@@ -58,32 +58,35 @@
         <div class="mb-5 border-b border-gray-100 pb-4">
             <h3 class="text-base font-semibold text-gray-950">Password</h3>
             <p class="mt-1 text-sm text-gray-500">
-                @if ($managedUser->exists)
-                    Leave the password fields blank to keep the current password.
-                @else
-                    New users start with the default password and can change it later.
-                @endif
+                {{ $managedUser->exists ? 'Leave the password fields blank to keep the current password.' : 'Set a strong temporary password and share it with the user through a secure channel.' }}
             </p>
         </div>
 
-        @if ($managedUser->exists)
-            <div class="form-grid">
-                <div class="form-field">
-                    <x-input-label for="password" :value="__('New Password (optional)')" />
-                    <x-text-input id="password" name="password" type="password" class="block w-full" autocomplete="new-password" />
-                    <x-input-error class="mt-2" :messages="$errors->get('password')" />
-                </div>
+        <div class="form-grid">
+            <div class="form-field">
+                <x-input-label for="password" :value="$managedUser->exists ? __('New Password (optional)') : __('Password')" />
+                <x-text-input
+                    id="password"
+                    name="password"
+                    type="password"
+                    class="block w-full"
+                    autocomplete="new-password"
+                    :required="! $managedUser->exists"
+                />
+                <x-input-error class="mt-2" :messages="$errors->get('password')" />
+            </div>
 
-                <div class="form-field">
-                    <x-input-label for="password_confirmation" :value="__('Confirm New Password')" />
-                    <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="block w-full" autocomplete="new-password" />
-                </div>
+            <div class="form-field">
+                <x-input-label for="password_confirmation" :value="$managedUser->exists ? __('Confirm New Password') : __('Confirm Password')" />
+                <x-text-input
+                    id="password_confirmation"
+                    name="password_confirmation"
+                    type="password"
+                    class="block w-full"
+                    autocomplete="new-password"
+                    :required="! $managedUser->exists"
+                />
             </div>
-        @else
-            <div class="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-                <p class="font-semibold">Default password</p>
-                <p class="mt-1">Newly created users will receive the default password <span class="font-semibold">password</span> and can change it later from their account settings.</p>
-            </div>
-        @endif
+        </div>
     </section>
 </div>

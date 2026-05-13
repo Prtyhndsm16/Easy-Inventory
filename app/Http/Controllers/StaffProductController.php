@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class StaffProductController extends Controller
 {
     public function index(Request $request): View
     {
-        $search = trim((string) $request->string('search'));
+        $search = Str::limit(trim((string) $request->string('search')), 100, '');
         $filter = (string) $request->string('filter');
         $lowStockLimit = 10;
 

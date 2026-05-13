@@ -198,9 +198,14 @@
                             </div>
                         </div>
 
-                        <a href="{{ route('admin.users.index') }}" class="btn-muted w-full">
-                            Manage Users
-                        </a>
+                        <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+                            <a href="{{ route('admin.users.index') }}" class="btn-muted w-full">
+                                Manage Users
+                            </a>
+                            <a href="{{ route('admin.audit-logs.index') }}" class="btn-muted w-full">
+                                View Audit Logs
+                            </a>
+                        </div>
                     </div>
                 </aside>
             </section>

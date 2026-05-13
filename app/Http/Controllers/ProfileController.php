@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Support\AuditLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +33,13 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
 
+        $changedFields = array_keys($request->user()->getDirty());
         $request->user()->save();
+
+        AuditLogger::record('profile.updated', 'success', [
+            'changed_fields' => $changedFields,
+            'email_verification_reset' => in_array('email_verified_at', $changedFields, true),
+        ], $request->user());
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -47,6 +54,11 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+
+        AuditLogger::record('account.deleted', 'success', [
+            'target_user_id' => $user->id,
+            'target_email' => $user->email,
+        ], $user);
 
         Auth::logout();
 

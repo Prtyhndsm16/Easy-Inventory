@@ -30,6 +30,10 @@
                         <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
                             {{ __('Users') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('admin.audit-logs.index')" :active="request()->routeIs('admin.audit-logs.*')">
+                            {{ __('Audit Logs') }}
+                        </x-nav-link>
                     @elseif (Auth::user()->isStaff())
                         <x-nav-link :href="route('staff.products.index')" :active="request()->routeIs('staff.products.*')">
                             {{ __('Inventory') }}
@@ -104,6 +108,10 @@
 
                 <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
                     {{ __('Users') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.audit-logs.index')" :active="request()->routeIs('admin.audit-logs.*')">
+                    {{ __('Audit Logs') }}
                 </x-responsive-nav-link>
             @elseif (Auth::user()->isStaff())
                 <x-responsive-nav-link :href="route('staff.products.index')" :active="request()->routeIs('staff.products.*')">

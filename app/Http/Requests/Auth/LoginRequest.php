@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Support\AuditLogger;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -45,6 +46,10 @@ class LoginRequest extends FormRequest
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
+            AuditLogger::record('auth.login', 'failed', [
+                'attempts' => RateLimiter::attempts($this->throttleKey()),
+            ], request: $this, email: $this->string('email')->toString());
+
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
@@ -67,6 +72,10 @@ class LoginRequest extends FormRequest
         event(new Lockout($this));
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
+
+        AuditLogger::record('auth.login', 'locked_out', [
+            'available_in_seconds' => $seconds,
+        ], request: $this, email: $this->string('email')->toString());
 
         throw ValidationException::withMessages([
             'email' => trans('auth.throttle', [

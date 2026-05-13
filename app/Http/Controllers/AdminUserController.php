@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminUserRequest;
 use App\Models\User;
+use App\Support\AuditLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
@@ -30,16 +31,21 @@ class AdminUserController extends Controller
     {
         $validated = $request->validated();
 
-        User::create([
+        $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'role' => $validated['role'],
-            'password' => Hash::make('password'),
+            'password' => Hash::make($validated['password']),
         ]);
+
+        AuditLogger::record('user.created', 'success', [
+            'target_user_id' => $user->id,
+            'target_role' => $user->role,
+        ], $user);
 
         return redirect()
             ->route('admin.users.index')
-            ->with('status', 'User account created successfully. Default password: password');
+            ->with('status', 'User account created successfully.');
     }
 
     public function edit(User $user): View
@@ -75,7 +81,14 @@ class AdminUserController extends Controller
             $user->password = Hash::make($validated['password']);
         }
 
+        $changedFields = array_keys($user->getDirty());
         $user->save();
+
+        AuditLogger::record('user.updated', 'success', [
+            'target_user_id' => $user->id,
+            'changed_fields' => $changedFields,
+            'password_changed' => in_array('password', $changedFields, true),
+        ], $user);
 
         return redirect()
             ->route('admin.users.index')
@@ -95,6 +108,12 @@ class AdminUserController extends Controller
                 'delete' => 'At least one admin account must remain in the system.',
             ]);
         }
+
+        AuditLogger::record('user.deleted', 'success', [
+            'target_user_id' => $user->id,
+            'target_email' => $user->email,
+            'target_role' => $user->role,
+        ], $user);
 
         $user->delete();
 

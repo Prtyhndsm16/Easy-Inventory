@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Support\AuditLogger;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -51,6 +52,10 @@ class NewPasswordController extends Controller
                 event(new PasswordReset($user));
             }
         );
+
+        AuditLogger::record('password.reset_completed', $status == Password::PASSWORD_RESET ? 'success' : 'failed', [
+            'broker_status' => $status,
+        ], email: $request->string('email')->toString());
 
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can

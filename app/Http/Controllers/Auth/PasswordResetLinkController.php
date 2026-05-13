@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Support\AuditLogger;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -36,6 +37,10 @@ class PasswordResetLinkController extends Controller
         $status = Password::sendResetLink(
             $request->only('email')
         );
+
+        AuditLogger::record('password.reset_link_requested', $status == Password::RESET_LINK_SENT ? 'success' : 'failed', [
+            'broker_status' => $status,
+        ], email: $request->string('email')->toString());
 
         return $status == Password::RESET_LINK_SENT
                     ? back()->with('status', __($status))

@@ -28,7 +28,7 @@ class AdminUserRequest extends FormRequest
 
         $passwordRules = $user
             ? ['nullable', 'confirmed', Password::defaults()]
-            : ['nullable'];
+            : ['required', 'confirmed', Password::defaults()];
 
         return [
             'name' => ['required', 'string', 'max:255'],

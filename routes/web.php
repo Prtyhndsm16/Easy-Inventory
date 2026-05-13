@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardRedirectController;
 use App\Http\Controllers\ProductController;
@@ -27,6 +28,9 @@ Route::resource('/admin/users', AdminUserController::class)
     ->except(['show'])
     ->middleware(['auth', 'verified', 'role:admin'])
     ->names('admin.users');
+Route::get('/admin/audit-logs', [AuditLogController::class, 'index'])
+    ->middleware(['auth', 'verified', 'role:admin'])
+    ->name('admin.audit-logs.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
