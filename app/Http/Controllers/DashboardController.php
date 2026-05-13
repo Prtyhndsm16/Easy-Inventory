@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 
@@ -20,6 +21,8 @@ class DashboardController extends Controller
             'inventoryValue' => 0,
             'categoryCount' => 0,
             'supplierCount' => 0,
+            'userCount' => User::count(),
+            'staffCount' => User::where('role', 'staff')->count(),
         ];
 
         $lowStockProducts = collect();
@@ -33,6 +36,8 @@ class DashboardController extends Controller
                 'inventoryValue' => Product::selectRaw('COALESCE(SUM(price * stock), 0) as value')->value('value'),
                 'categoryCount' => Product::whereNotNull('category')->distinct('category')->count('category'),
                 'supplierCount' => Product::whereNotNull('supplier')->distinct('supplier')->count('supplier'),
+                'userCount' => User::count(),
+                'staffCount' => User::where('role', 'staff')->count(),
             ];
 
             $lowStockProducts = Product::where('stock', '<=', $lowStockLimit)

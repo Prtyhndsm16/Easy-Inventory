@@ -22,12 +22,6 @@
                         <a href="{{ route('login') }}" class="font-medium text-gray-700 hover:text-gray-900">
                             Log in
                         </a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="font-medium text-gray-700 hover:text-gray-900">
-                                Register
-                            </a>
-                        @endif
                     @endauth
                 </nav>
             </header>

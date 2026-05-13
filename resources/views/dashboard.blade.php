@@ -77,6 +77,24 @@
                 </div>
             </section>
 
+            <section class="grid gap-4 sm:grid-cols-2">
+                <div class="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+                    <p class="text-sm font-medium text-gray-500">User Accounts</p>
+                    <p class="mt-3 text-3xl font-semibold text-gray-950">
+                        {{ number_format($stats['userCount']) }}
+                    </p>
+                    <p class="mt-2 text-sm text-gray-500">Total accounts managed by admin</p>
+                </div>
+
+                <div class="rounded-lg border border-blue-200 bg-blue-50 p-5 shadow-sm">
+                    <p class="text-sm font-medium text-blue-700">Staff Accounts</p>
+                    <p class="mt-3 text-3xl font-semibold text-blue-900">
+                        {{ number_format($stats['staffCount']) }}
+                    </p>
+                    <p class="mt-2 text-sm text-blue-700">Active staff users in the system</p>
+                </div>
+            </section>
+
             <section class="grid gap-6 xl:grid-cols-[1.4fr_0.6fr]">
                 <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
                     <div class="border-b border-gray-100 px-6 py-4">
@@ -122,23 +140,27 @@
                     <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
                         <h3 class="text-lg font-semibold text-gray-950">Quick Actions</h3>
                         <div class="mt-4 grid gap-3">
-                            <a href="#" class="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:border-emerald-300 hover:bg-emerald-50">
+                            <a href="{{ route('admin.products.create') }}" class="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:border-emerald-300 hover:bg-emerald-50">
                                 <span>Add new product</span>
                                 <span aria-hidden="true">+</span>
                             </a>
-                            <a href="#" class="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:border-emerald-300 hover:bg-emerald-50">
+                            <a href="{{ route('admin.products.index') }}" class="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:border-emerald-300 hover:bg-emerald-50">
                                 <span>View inventory list</span>
                                 <span aria-hidden="true">></span>
                             </a>
-                            <a href="#" class="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:border-emerald-300 hover:bg-emerald-50">
-                                <span>Generate stock report</span>
+                            <a href="{{ route('admin.products.index', ['filter' => 'low-stock']) }}" class="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:border-emerald-300 hover:bg-emerald-50">
+                                <span>View low stock items</span>
+                                <span aria-hidden="true">></span>
+                            </a>
+                            <a href="{{ route('admin.users.index') }}" class="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 hover:border-emerald-300 hover:bg-emerald-50">
+                                <span>User management</span>
                                 <span aria-hidden="true">></span>
                             </a>
                         </div>
                     </div>
 
                     <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-                        <h3 class="text-lg font-semibold text-gray-950">Inventory Summary</h3>
+                        <h3 class="text-lg font-semibold text-gray-950">System Summary</h3>
                         <dl class="mt-4 space-y-3 text-sm">
                             <div class="flex items-center justify-between">
                                 <dt class="text-gray-500">Categories</dt>
@@ -151,6 +173,10 @@
                             <div class="flex items-center justify-between">
                                 <dt class="text-gray-500">Security</dt>
                                 <dd class="font-semibold text-emerald-700">Login enabled</dd>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <dt class="text-gray-500">User provisioning</dt>
+                                <dd class="font-semibold text-blue-700">Admin only</dd>
                             </div>
                         </dl>
                     </div>
@@ -207,14 +233,14 @@
                             <span class="mt-1 h-2.5 w-2.5 rounded-full bg-amber-500"></span>
                             <div>
                                 <p class="text-sm font-medium text-gray-900">Role-based access</p>
-                                <p class="text-sm text-gray-500">Ready to add Admin and Staff roles next.</p>
+                                <p class="text-sm text-gray-500">Admin and staff dashboards are now separated by role.</p>
                             </div>
                         </div>
                         <div class="flex gap-3">
-                            <span class="mt-1 h-2.5 w-2.5 rounded-full bg-amber-500"></span>
+                            <span class="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
                             <div>
                                 <p class="text-sm font-medium text-gray-900">Product CRUD</p>
-                                <p class="text-sm text-gray-500">Add, edit, delete, and search pages are the next module.</p>
+                                <p class="text-sm text-gray-500">Add, edit, delete, and search screens are ready for admin use.</p>
                             </div>
                         </div>
                     </div>

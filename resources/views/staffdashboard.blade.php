@@ -22,16 +22,23 @@
             @endunless
 
             <section class="rounded-lg bg-blue-950 px-6 py-7 text-white shadow-sm">
-                <div class="max-w-3xl">
-                    <p class="text-sm font-medium text-blue-200">Inventory Access</p>
-                    <h3 class="mt-2 text-3xl font-semibold tracking-normal">
-                        Check inventory status without admin controls.
-                    </h3>
-                    <p class="mt-3 text-sm leading-6 text-blue-100">
-                        Staff users can view product counts, stock levels, low stock alerts,
-                        and recent inventory activity. Editing, deleting, account management,
-                        and system settings are reserved for admins.
-                    </p>
+                <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+                    <div class="max-w-3xl">
+                        <p class="text-sm font-medium text-blue-200">Inventory Access</p>
+                        <h3 class="mt-2 text-3xl font-semibold tracking-normal">
+                            Check inventory status without admin controls.
+                        </h3>
+                        <p class="mt-3 text-sm leading-6 text-blue-100">
+                            Staff users can view product counts, stock levels, low stock alerts,
+                            and recent inventory activity. Editing, deleting, account management,
+                            and system settings are reserved for admins.
+                        </p>
+                    </div>
+                    <div>
+                        <a href="{{ route('staff.products.index') }}" class="inline-flex items-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-50">
+                            Open inventory page
+                        </a>
+                    </div>
                 </div>
             </section>
 
@@ -115,7 +122,7 @@
                         </div>
                         <div class="rounded-lg border border-blue-200 bg-blue-50 p-4">
                             <p class="font-medium text-blue-900">Next module</p>
-                            <p class="mt-1 text-blue-700">A read-only inventory page can be connected here for staff.</p>
+                            <p class="mt-1 text-blue-700">The read-only inventory page is now available for staff use.</p>
                         </div>
                     </div>
                 </div>

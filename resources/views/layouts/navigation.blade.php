@@ -15,6 +15,20 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard', 'admin.dashboard', 'staff.dashboard')">
                         {{ Auth::user()->isAdmin() ? __('Admin Dashboard') : __('Staff Dashboard') }}
                     </x-nav-link>
+
+                    @if (Auth::user()->isAdmin())
+                        <x-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.*')">
+                            {{ __('Products') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    @elseif (Auth::user()->isStaff())
+                        <x-nav-link :href="route('staff.products.index')" :active="request()->routeIs('staff.products.*')">
+                            {{ __('Inventory') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -70,6 +84,20 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard', 'admin.dashboard', 'staff.dashboard')">
                 {{ Auth::user()->isAdmin() ? __('Admin Dashboard') : __('Staff Dashboard') }}
             </x-responsive-nav-link>
+
+            @if (Auth::user()->isAdmin())
+                <x-responsive-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.*')">
+                    {{ __('Products') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                    {{ __('Users') }}
+                </x-responsive-nav-link>
+            @elseif (Auth::user()->isStaff())
+                <x-responsive-nav-link :href="route('staff.products.index')" :active="request()->routeIs('staff.products.*')">
+                    {{ __('Inventory') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
