@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\StockOut;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 
@@ -12,21 +13,27 @@ class StaffDashboardController extends Controller
     {
         $lowStockLimit = 10;
         $productsTableExists = Schema::hasTable('products');
+        $stockOutsTableExists = Schema::hasTable('stock_outs');
 
         $stats = [
-            'totalProducts' => 0,
-            'totalStock' => 0,
-            'lowStockCount' => 0,
+            'totalProducts'  => 0,
+            'totalStock'     => 0,
+            'lowStockCount'  => 0,
+            'stockOutsToday' => 0,
         ];
 
         $lowStockProducts = collect();
-        $recentProducts = collect();
+        $recentProducts   = collect();
+        $recentStockOuts  = collect();
 
         if ($productsTableExists) {
             $stats = [
-                'totalProducts' => Product::count(),
-                'totalStock' => Product::sum('stock'),
-                'lowStockCount' => Product::where('stock', '<=', $lowStockLimit)->count(),
+                'totalProducts'  => Product::count(),
+                'totalStock'     => Product::sum('stock'),
+                'lowStockCount'  => Product::where('stock', '<=', $lowStockLimit)->count(),
+                'stockOutsToday' => $stockOutsTableExists
+                    ? StockOut::whereDate('date', today())->count()
+                    : 0,
             ];
 
             $lowStockProducts = Product::where('stock', '<=', $lowStockLimit)
@@ -40,12 +47,21 @@ class StaffDashboardController extends Controller
                 ->get();
         }
 
+        if ($stockOutsTableExists) {
+            $recentStockOuts = StockOut::with('recorder')
+                ->latest('date')
+                ->latest('id')
+                ->limit(5)
+                ->get();
+        }
+
         return view('staffdashboard', [
-            'lowStockLimit' => $lowStockLimit,
-            'productsTableExists' => $productsTableExists,
-            'stats' => $stats,
-            'lowStockProducts' => $lowStockProducts,
-            'recentProducts' => $recentProducts,
+            'lowStockLimit'        => $lowStockLimit,
+            'productsTableExists'  => $productsTableExists,
+            'stats'                => $stats,
+            'lowStockProducts'     => $lowStockProducts,
+            'recentProducts'       => $recentProducts,
+            'recentStockOuts'      => $recentStockOuts,
         ]);
     }
 }

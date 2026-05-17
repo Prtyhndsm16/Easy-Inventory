@@ -8,12 +8,20 @@
                 </h2>
                 <p class="section-subtitle">Search, filter, update, and maintain inventory records.</p>
             </div>
-            <a href="{{ route('admin.products.create') }}" class="btn-primary w-full sm:w-auto">
-                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                    <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                Add Product
-            </a>
+            <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <a href="{{ route('admin.products.deleted') }}" class="btn-muted w-full sm:w-auto">
+                    Deleted Products
+                    @if ($deletedProductCount > 0)
+                        <span class="badge bg-red-100 text-red-700">{{ number_format($deletedProductCount) }}</span>
+                    @endif
+                </a>
+                <a href="{{ route('admin.products.create') }}" class="btn-primary w-full sm:w-auto">
+                    <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Add Product
+                </a>
+            </div>
         </div>
     </x-slot>
 
@@ -94,8 +102,26 @@
                             @forelse ($products as $product)
                                 <tr>
                                     <td>
-                                        <div class="font-semibold text-gray-950">{{ $product->product_name }}</div>
-                                        <div class="text-xs text-gray-500">{{ $product->barcode ?? 'No barcode' }}</div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+                                                @if ($product->imageUrl())
+                                                    <img
+                                                        src="{{ $product->imageUrl() }}"
+                                                        alt="{{ $product->product_name }} image"
+                                                        class="h-full w-full object-cover"
+                                                    >
+                                                @else
+                                                    <span class="text-xs font-semibold text-gray-400">IMG</span>
+                                                @endif
+                                            </div>
+                                            <div>
+                                                <a href="{{ route('admin.products.show', $product) }}"
+                                                   class="font-semibold text-gray-950 hover:text-emerald-700 hover:underline">
+                                                    {{ $product->product_name }}
+                                                </a>
+                                                <div class="text-xs text-gray-500">{{ $product->barcode ?? 'No barcode' }}</div>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="text-gray-600">{{ $product->category ?? 'Uncategorized' }}</td>
                                     <td class="font-medium text-gray-950">PHP {{ number_format((float) $product->price, 2) }}</td>
@@ -111,7 +137,7 @@
                                             <a href="{{ route('admin.products.edit', $product) }}" class="inline-flex items-center rounded-lg border border-gray-300 px-3 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50">
                                                 Edit
                                             </a>
-                                            <form method="POST" action="{{ route('admin.products.destroy', $product) }}" onsubmit="return confirm('Delete this product?');">
+                                            <form method="POST" action="{{ route('admin.products.destroy', $product) }}" onsubmit="return confirm('Move this product to Deleted Products? You can restore it later.');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="inline-flex items-center rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-700 transition hover:bg-red-50">

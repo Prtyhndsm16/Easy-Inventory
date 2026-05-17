@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,6 +24,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'locked_at',
+        'locked_by',
     ];
 
     /**
@@ -45,7 +48,21 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'locked_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Normalize stored roles so copied/newline-padded values still authorize correctly.
+     *
+     * @return Attribute<string, string>
+     */
+    protected function role(): Attribute
+    {
+        return Attribute::make(
+            get: fn (?string $value): string => strtolower(trim((string) $value)),
+            set: fn (?string $value): string => strtolower(trim((string) $value)),
+        );
     }
 
     public function isAdmin(): bool
@@ -56,6 +73,11 @@ class User extends Authenticatable
     public function isStaff(): bool
     {
         return $this->role === 'staff';
+    }
+
+    public function isLocked(): bool
+    {
+        return $this->locked_at !== null;
     }
 
     public function dashboardRouteName(): string

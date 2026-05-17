@@ -27,17 +27,19 @@ class ProductRequest extends FormRequest
 
         return [
             'product_name' => ['required', 'string', 'max:255'],
-            'category' => ['nullable', 'string', 'max:255'],
-            'price' => ['required', 'numeric', 'min:0', 'max:99999999.99'],
-            'stock' => ['required', 'integer', 'min:0'],
-            'supplier' => ['nullable', 'string', 'max:255'],
-            'barcode' => [
+            'category'     => ['nullable', 'string', 'max:255'],
+            'price'        => ['required', 'numeric', 'min:0', 'max:99999999.99'],
+            'cost_price'   => ['nullable', 'numeric', 'min:0', 'max:99999999.99'],
+            'stock'        => ['required', 'integer', 'min:0'],
+            'supplier'     => ['nullable', 'string', 'max:255'],
+            'barcode'      => [
                 'nullable',
                 'string',
                 'max:255',
                 Rule::unique('products', 'barcode')->ignore($productKey, 'product_id'),
             ],
-            'date_added' => ['nullable', 'date'],
+            'date_added'     => ['nullable', 'date'],
+            'product_image'  => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ];
     }
 }

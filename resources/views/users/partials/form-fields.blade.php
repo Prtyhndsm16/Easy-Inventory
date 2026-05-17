@@ -54,39 +54,44 @@
         </div>
     </section>
 
-    <section>
-        <div class="mb-5 border-b border-gray-100 pb-4">
-            <h3 class="text-base font-semibold text-gray-950">Password</h3>
-            <p class="mt-1 text-sm text-gray-500">
-                {{ $managedUser->exists ? 'Leave the password fields blank to keep the current password.' : 'Set a strong temporary password and share it with the user through a secure channel.' }}
-            </p>
-        </div>
-
-        <div class="form-grid">
-            <div class="form-field">
-                <x-input-label for="password" :value="$managedUser->exists ? __('New Password (optional)') : __('Password')" />
-                <x-text-input
-                    id="password"
-                    name="password"
-                    type="password"
-                    class="block w-full"
-                    autocomplete="new-password"
-                    :required="! $managedUser->exists"
-                />
-                <x-input-error class="mt-2" :messages="$errors->get('password')" />
+    @if ($managedUser->exists)
+        <section>
+            <div class="mb-5 border-b border-gray-100 pb-4">
+                <h3 class="text-base font-semibold text-gray-950">Password</h3>
+                <p class="mt-1 text-sm text-gray-500">Leave the password fields blank to keep the current password.</p>
             </div>
 
-            <div class="form-field">
-                <x-input-label for="password_confirmation" :value="$managedUser->exists ? __('Confirm New Password') : __('Confirm Password')" />
-                <x-text-input
-                    id="password_confirmation"
-                    name="password_confirmation"
-                    type="password"
-                    class="block w-full"
-                    autocomplete="new-password"
-                    :required="! $managedUser->exists"
-                />
+            <div class="form-grid">
+                <div class="form-field">
+                    <x-input-label for="password" :value="__('New Password (optional)')" />
+                    <x-text-input
+                        id="password"
+                        name="password"
+                        type="password"
+                        class="block w-full"
+                        autocomplete="new-password"
+                    />
+                    <x-input-error class="mt-2" :messages="$errors->get('password')" />
+                </div>
+
+                <div class="form-field">
+                    <x-input-label for="password_confirmation" :value="__('Confirm New Password')" />
+                    <x-text-input
+                        id="password_confirmation"
+                        name="password_confirmation"
+                        type="password"
+                        class="block w-full"
+                        autocomplete="new-password"
+                    />
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @else
+        <section>
+            <div class="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+                <p class="font-semibold">Default password</p>
+                <p class="mt-1">New accounts will use <span class="font-mono font-semibold">password</span> as their initial password. Staff can change it from their profile after logging in.</p>
+            </div>
+        </section>
+    @endif
 </div>

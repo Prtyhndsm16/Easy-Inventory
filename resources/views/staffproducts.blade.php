@@ -82,8 +82,23 @@
                             @forelse ($products as $product)
                                 <tr>
                                     <td>
-                                        <div class="font-semibold text-gray-950">{{ $product->product_name }}</div>
-                                        <div class="text-xs text-gray-500">{{ $product->barcode ?? 'No barcode' }}</div>
+                                        <div class="flex items-center gap-3">
+                                            <div class="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+                                                @if ($product->imageUrl())
+                                                    <img
+                                                        src="{{ $product->imageUrl() }}"
+                                                        alt="{{ $product->product_name }} image"
+                                                        class="h-full w-full object-cover"
+                                                    >
+                                                @else
+                                                    <span class="text-xs font-semibold text-gray-400">IMG</span>
+                                                @endif
+                                            </div>
+                                            <div>
+                                                <div class="font-semibold text-gray-950">{{ $product->product_name }}</div>
+                                                <div class="text-xs text-gray-500">{{ $product->barcode ?? 'No barcode' }}</div>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="text-gray-600">{{ $product->category ?? 'Uncategorized' }}</td>
                                     <td class="font-medium text-gray-950">PHP {{ number_format((float) $product->price, 2) }}</td>

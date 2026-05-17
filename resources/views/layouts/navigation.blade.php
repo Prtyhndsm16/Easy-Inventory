@@ -23,6 +23,10 @@
                     </x-nav-link>
 
                     @if (Auth::user()->isAdmin())
+                        <x-nav-link :href="route('cashiering.index')" :active="request()->routeIs('cashiering.*')">
+                            {{ __('Cashiering') }}
+                        </x-nav-link>
+
                         <x-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.*')">
                             {{ __('Products') }}
                         </x-nav-link>
@@ -34,9 +38,37 @@
                         <x-nav-link :href="route('admin.audit-logs.index')" :active="request()->routeIs('admin.audit-logs.*')">
                             {{ __('Audit Logs') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('admin.stock-in.index')" :active="request()->routeIs('admin.stock-in.*')">
+                            {{ __('Stock In') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.stock-out.index')" :active="request()->routeIs('admin.stock-out.*')">
+                            {{ __('Stock Out') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.sales.index')" :active="request()->routeIs('admin.sales.*')">
+                            {{ __('Sales') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.reports.index')" :active="request()->routeIs('admin.reports.*')">
+                            {{ __('Reports') }}
+                        </x-nav-link>
                     @elseif (Auth::user()->isStaff())
                         <x-nav-link :href="route('staff.products.index')" :active="request()->routeIs('staff.products.*')">
                             {{ __('Inventory') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('cashiering.index')" :active="request()->routeIs('cashiering.*')">
+                            {{ __('Cashiering') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.stock-in.index')" :active="request()->routeIs('admin.stock-in.*')">
+                            {{ __('Stock In') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.stock-out.index')" :active="request()->routeIs('admin.stock-out.*')">
+                            {{ __('Stock Out') }}
                         </x-nav-link>
                     @endif
                 </div>
@@ -102,6 +134,10 @@
             </x-responsive-nav-link>
 
             @if (Auth::user()->isAdmin())
+                <x-responsive-nav-link :href="route('cashiering.index')" :active="request()->routeIs('cashiering.*')">
+                    {{ __('Cashiering') }}
+                </x-responsive-nav-link>
+
                 <x-responsive-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.*')">
                     {{ __('Products') }}
                 </x-responsive-nav-link>
@@ -113,9 +149,37 @@
                 <x-responsive-nav-link :href="route('admin.audit-logs.index')" :active="request()->routeIs('admin.audit-logs.*')">
                     {{ __('Audit Logs') }}
                 </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.stock-in.index')" :active="request()->routeIs('admin.stock-in.*')">
+                    {{ __('Stock In') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.stock-out.index')" :active="request()->routeIs('admin.stock-out.*')">
+                    {{ __('Stock Out') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.sales.index')" :active="request()->routeIs('admin.sales.*')">
+                    {{ __('Sales') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.reports.index')" :active="request()->routeIs('admin.reports.*')">
+                    {{ __('Reports') }}
+                </x-responsive-nav-link>
             @elseif (Auth::user()->isStaff())
                 <x-responsive-nav-link :href="route('staff.products.index')" :active="request()->routeIs('staff.products.*')">
                     {{ __('Inventory') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('cashiering.index')" :active="request()->routeIs('cashiering.*')">
+                    {{ __('Cashiering') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.stock-in.index')" :active="request()->routeIs('admin.stock-in.*')">
+                    {{ __('Stock In') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.stock-out.index')" :active="request()->routeIs('admin.stock-out.*')">
+                    {{ __('Stock Out') }}
                 </x-responsive-nav-link>
             @endif
         </div>

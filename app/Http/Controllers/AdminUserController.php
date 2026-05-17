@@ -11,6 +11,8 @@ use Illuminate\View\View;
 
 class AdminUserController extends Controller
 {
+    private const DEFAULT_PASSWORD = 'password';
+
     public function index(): View
     {
         return view('users.index', [
@@ -34,7 +36,7 @@ class AdminUserController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'role' => $validated['role'],
-            'password' => Hash::make($validated['password']),
+            'password' => Hash::make(self::DEFAULT_PASSWORD),
         ]);
 
         AuditLogger::record('user.created', 'success', [
@@ -119,5 +121,63 @@ class AdminUserController extends Controller
         return redirect()
             ->route('admin.users.index')
             ->with('status', 'User account deleted successfully.');
+    }
+
+    public function lock(User $user): RedirectResponse
+    {
+        if (request()->user()->is($user)) {
+            return back()->withErrors([
+                'lock' => 'You cannot lock your own account.',
+            ]);
+        }
+
+        if ($user->isAdmin() && User::where('role', 'admin')->whereNull('locked_at')->whereKeyNot($user->getKey())->count() < 1) {
+            return back()->withErrors([
+                'lock' => 'At least one unlocked admin account must remain in the system.',
+            ]);
+        }
+
+        $user->forceFill([
+            'locked_at' => now(),
+            'locked_by' => request()->user()->id,
+        ])->save();
+
+        AuditLogger::record('user.locked', 'success', [
+            'target_user_id' => $user->id,
+            'target_email' => $user->email,
+            'target_role' => $user->role,
+        ], $user);
+
+        return back()->with('status', 'User account locked successfully.');
+    }
+
+    public function unlock(User $user): RedirectResponse
+    {
+        $user->forceFill([
+            'locked_at' => null,
+            'locked_by' => null,
+        ])->save();
+
+        AuditLogger::record('user.unlocked', 'success', [
+            'target_user_id' => $user->id,
+            'target_email'   => $user->email,
+            'target_role'    => $user->role,
+        ]);
+
+        return back()->with('status', 'User account unlocked successfully.');
+    }
+
+    public function resetPassword(User $user): RedirectResponse
+    {
+        $user->forceFill([
+            'password' => Hash::make(self::DEFAULT_PASSWORD),
+        ])->save();
+
+        AuditLogger::record('user.password_reset', 'success', [
+            'target_user_id' => $user->id,
+            'target_email'   => $user->email,
+        ]);
+
+        return back()->with('status', "Password for {$user->name} has been reset to the default.");
     }
 }

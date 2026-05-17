@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ config('app.name', 'Easy Inventory Manager') }}</title>
+        <title>{{ config('app.name', 'Easy Inventory & Sales Manager') }}</title>
 
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
             @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -40,7 +40,7 @@
         @endif
 
         <main>
-            <section class="relative isolate -mt-[84px] min-h-[82vh] overflow-hidden px-6 pb-12 pt-32 lg:px-8">
+            <section class="relative isolate -mt-[84px] overflow-hidden px-6 pb-12 pt-32 sm:min-h-[82vh] lg:px-8">
                 <div class="absolute inset-0 -z-20 bg-gray-950"></div>
 
                 <div class="absolute inset-0 -z-10 overflow-hidden opacity-85">
@@ -64,7 +64,7 @@
                         </div>
                     </div>
 
-                    <div class="absolute bottom-12 left-6 right-6 grid gap-3 sm:grid-cols-3 lg:left-auto lg:right-16 lg:w-[620px]">
+                    <div class="absolute bottom-12 left-6 right-6 hidden gap-3 sm:grid-cols-3 lg:left-auto lg:right-16 lg:grid lg:w-[620px]">
                         <div class="rounded-lg border border-white/10 bg-white/10 p-4 backdrop-blur">
                             <p class="text-xs font-semibold uppercase text-emerald-100">Products</p>
                             <p class="mt-2 text-3xl font-semibold">240</p>
@@ -80,13 +80,13 @@
                     </div>
                 </div>
 
-                <div class="mx-auto flex min-h-[58vh] max-w-7xl items-center">
-                    <div class="max-w-3xl">
-                        <p class="text-sm font-semibold uppercase text-emerald-200">Inventory control for small teams</p>
-                        <h1 class="mt-5 text-4xl font-semibold leading-tight text-white sm:text-6xl">
-                            {{ config('app.name', 'Easy Inventory Manager') }}
+                <div class="mx-auto flex max-w-7xl min-w-0 items-center sm:min-h-[58vh]">
+                    <div class="w-full min-w-0 max-w-[calc(100vw-3rem)] sm:max-w-3xl">
+                        <p class="text-xs font-semibold uppercase tracking-wide text-emerald-200 sm:text-sm">Inventory control for small teams</p>
+                        <h1 class="mt-4 max-w-full break-words text-3xl font-semibold leading-tight text-white sm:mt-5 sm:text-6xl">
+                            {{ config('app.name', 'Easy Inventory & Sales Manager') }}
                         </h1>
-                        <p class="mt-6 max-w-2xl text-base leading-7 text-gray-200 sm:text-lg">
+                        <p class="mt-5 max-w-2xl break-words text-base leading-7 text-gray-200 sm:mt-6 sm:text-lg">
                             Track products, monitor low-stock items, manage staff access, and keep daily inventory work organized in one focused system.
                         </p>
 
@@ -100,6 +100,21 @@
                                     Log in to System
                                 </a>
                             @endauth
+                        </div>
+
+                        <div class="mt-8 grid w-full max-w-full gap-3 sm:grid-cols-3 lg:hidden">
+                            <div class="rounded-lg border border-white/10 bg-white/10 p-4 backdrop-blur">
+                                <p class="text-xs font-semibold uppercase text-emerald-100">Products</p>
+                                <p class="mt-2 text-3xl font-semibold">240</p>
+                            </div>
+                            <div class="rounded-lg border border-white/10 bg-white/10 p-4 backdrop-blur">
+                                <p class="text-xs font-semibold uppercase text-blue-100">Stock Units</p>
+                                <p class="mt-2 text-3xl font-semibold">12.4k</p>
+                            </div>
+                            <div class="rounded-lg border border-red-300/20 bg-red-500/15 p-4 backdrop-blur">
+                                <p class="text-xs font-semibold uppercase text-red-100">Alerts</p>
+                                <p class="mt-2 text-3xl font-semibold">8</p>
+                            </div>
                         </div>
                     </div>
                 </div>

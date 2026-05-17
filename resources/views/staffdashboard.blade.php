@@ -19,12 +19,29 @@
                 </p>
             </div>
 
-            <a href="{{ route('staff.products.index') }}" class="btn-primary-blue w-full sm:w-auto">
-                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                    <path d="M4 6h12M4 10h12M4 14h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                View Inventory
-            </a>
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="{{ route('cashiering.index') }}" class="btn-primary flex items-center gap-2 w-full sm:w-auto">
+                    <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M3 5a2 2 0 012-2h10a2 2 0 012 2v2H3V5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                        <path d="M3 7h14v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                        <path d="M8 12h4M10 10v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                    Cashiering
+                </a>
+                <a href="{{ route('admin.stock-in.index') }}" class="btn-muted flex items-center gap-2 w-full sm:w-auto">
+                    <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M10 17V7M6 11l4-4 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 3h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Stock In
+                </a>
+                <a href="{{ route('staff.products.index') }}" class="btn-primary-blue w-full sm:w-auto flex items-center gap-2">
+                    <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M4 6h12M4 10h12M4 14h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    View Inventory
+                </a>
+            </div>
         </div>
     </x-slot>
 
@@ -36,7 +53,7 @@
                 </div>
             @endunless
 
-            <section class="grid gap-4 md:grid-cols-3">
+            <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 <div class="stat-card">
                     <div class="flex items-start justify-between gap-4">
                         <div>
@@ -81,6 +98,22 @@
                         </span>
                     </div>
                     <p class="mt-2 text-sm text-red-700">{{ $lowStockPercent }}% of products may need restock</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <p class="stat-label">Stock Outs Today</p>
+                            <p class="stat-value">{{ number_format((int) ($stats['stockOutsToday'] ?? 0)) }}</p>
+                        </div>
+                        <span class="stat-icon bg-amber-100 text-amber-700">
+                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                                <path d="M10 3v10M6 9l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M4 17h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <p class="stat-note">Items recorded as stock out today</p>
                 </div>
             </section>
 
@@ -196,6 +229,67 @@
                             No product records available yet.
                         </div>
                     @endforelse
+                </div>
+            </section>
+
+            {{-- Recent Stock Outs --}}
+            <section class="panel">
+                <div class="panel-header flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-950">Recent Stock Outs</h3>
+                        <p class="section-subtitle">Latest items recorded as removed from inventory.</p>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Product</th>
+                                <th>Qty</th>
+                                <th>Reason</th>
+                                <th>Recorded By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($recentStockOuts as $item)
+                                @php
+                                    $reasonColors = [
+                                        'Damaged'     => 'bg-red-100 text-red-700',
+                                        'Expired'     => 'bg-amber-100 text-amber-800',
+                                        'Transferred' => 'bg-blue-100 text-blue-700',
+                                    ];
+                                @endphp
+                                <tr>
+                                    <td class="whitespace-nowrap text-gray-600">
+                                        {{ $item->date->format('M d, Y') }}
+                                    </td>
+                                    <td class="font-semibold text-gray-950">
+                                        {{ $item->product_name }}
+                                    </td>
+                                    <td class="font-semibold text-gray-950">
+                                        {{ $item->quantity }}
+                                    </td>
+                                    <td>
+                                        <span class="badge {{ $reasonColors[$item->reason] ?? 'bg-gray-100 text-gray-700' }}">
+                                            {{ $item->reason }}
+                                        </span>
+                                    </td>
+                                    <td class="text-sm text-gray-700">
+                                        {{ $item->recorder?->name ?? 'Unknown' }}
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="py-10 text-center">
+                                        <p class="font-semibold text-gray-900">No stock out records yet.</p>
+                                        <p class="mt-1 text-sm text-gray-500">Stock out entries will appear here once recorded.</p>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </section>
         </div>

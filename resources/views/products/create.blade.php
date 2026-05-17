@@ -17,7 +17,7 @@
     <div class="app-page">
         <div class="page-container-narrow">
             <section class="panel">
-                <form method="POST" action="{{ route('admin.products.store') }}" class="space-y-6">
+                <form method="POST" action="{{ route('admin.products.store') }}" enctype="multipart/form-data" class="space-y-6">
                     @csrf
 
                     <div class="panel-body">

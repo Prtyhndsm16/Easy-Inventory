@@ -31,6 +31,12 @@
                 </div>
             @endif
 
+            @if ($errors->has('lock'))
+                <div class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+                    {{ $errors->first('lock') }}
+                </div>
+            @endif
+
             <section class="grid gap-4 sm:grid-cols-2">
                 <div class="stat-card">
                     <div class="flex items-start justify-between gap-4">
@@ -78,6 +84,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
+                                <th>Status</th>
                                 <th>Created</th>
                                 <th class="text-right">Actions</th>
                             </tr>
@@ -97,12 +104,40 @@
                                             {{ ucfirst($user->role) }}
                                         </span>
                                     </td>
+                                    <td>
+                                        @if ($user->isLocked())
+                                            <span class="badge bg-red-100 text-red-700">Locked</span>
+                                        @else
+                                            <span class="badge bg-emerald-100 text-emerald-700">Active</span>
+                                        @endif
+                                    </td>
                                     <td class="text-gray-600">{{ $user->created_at->format('M d, Y') }}</td>
                                     <td>
                                         <div class="flex justify-end gap-2">
                                             <a href="{{ route('admin.users.edit', $user) }}" class="inline-flex items-center rounded-lg border border-gray-300 px-3 py-2 text-xs font-semibold text-gray-700 transition hover:bg-gray-50">
                                                 Edit
                                             </a>
+                                            <form
+                                                method="POST"
+                                                action="{{ $user->isLocked() ? route('admin.users.unlock', $user) : route('admin.users.lock', $user) }}"
+                                                onsubmit="return confirm('{{ $user->isLocked() ? 'Unlock this user account?' : 'Lock this user account? Locked users cannot log in.' }}');"
+                                            >
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="inline-flex items-center rounded-lg border {{ $user->isLocked() ? 'border-gray-300 text-gray-700 hover:bg-gray-50' : 'border-amber-200 text-amber-700 hover:bg-amber-50' }} px-3 py-2 text-xs font-semibold transition">
+                                                    {{ $user->isLocked() ? 'Unlock' : 'Lock' }}
+                                                </button>
+                                            </form>
+                                            <form method="POST"
+                                                  action="{{ route('admin.users.reset-password', $user) }}"
+                                                  onsubmit="return confirm('Reset password to default (\'password\')? The user must change it on next login.');"
+                                            >
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="inline-flex items-center rounded-lg border border-blue-200 px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-50">
+                                                    Reset PW
+                                                </button>
+                                            </form>
                                             <form method="POST" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('Delete this user account?');">
                                                 @csrf
                                                 @method('DELETE')
@@ -115,7 +150,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="py-12 text-center">
+                                    <td colspan="6" class="py-12 text-center">
                                         <p class="font-semibold text-gray-900">No staff users found.</p>
                                         <p class="mt-1 text-sm text-gray-500">Create a staff account to start managing access.</p>
                                     </td>

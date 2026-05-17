@@ -13,6 +13,10 @@ use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
 {
+    private const MAX_LOGIN_ATTEMPTS = 3;
+
+    private const LOGIN_LOCK_SECONDS = 3600;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -44,14 +48,32 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+            RateLimiter::hit($this->throttleKey(), self::LOGIN_LOCK_SECONDS);
 
             AuditLogger::record('auth.login', 'failed', [
                 'attempts' => RateLimiter::attempts($this->throttleKey()),
             ], request: $this, email: $this->string('email')->toString());
 
+            if (RateLimiter::tooManyAttempts($this->throttleKey(), self::MAX_LOGIN_ATTEMPTS)) {
+                $this->throwLockoutValidationException();
+            }
+
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
+            ]);
+        }
+
+        $user = Auth::user();
+
+        if ($user?->isLocked()) {
+            Auth::guard('web')->logout();
+
+            AuditLogger::record('auth.login', 'locked_account', [
+                'locked_at' => optional($user->locked_at)->toDateTimeString(),
+            ], request: $this, email: $this->string('email')->toString());
+
+            throw ValidationException::withMessages([
+                'email' => 'This account is locked. Please contact an admin.',
             ]);
         }
 
@@ -65,10 +87,20 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (! RateLimiter::tooManyAttempts($this->throttleKey(), self::MAX_LOGIN_ATTEMPTS)) {
             return;
         }
 
+        $this->throwLockoutValidationException();
+    }
+
+    /**
+     * Reject a login attempt while the account is temporarily locked.
+     *
+     * @throws ValidationException
+     */
+    private function throwLockoutValidationException(): never
+    {
         event(new Lockout($this));
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
@@ -90,6 +122,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('email')));
     }
 }

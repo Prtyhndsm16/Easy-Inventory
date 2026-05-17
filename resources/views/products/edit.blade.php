@@ -22,7 +22,7 @@
                     @method('DELETE')
                 </form>
 
-                <form method="POST" action="{{ route('admin.products.update', $product) }}" class="space-y-6">
+                <form method="POST" action="{{ route('admin.products.update', $product) }}" enctype="multipart/form-data" class="space-y-6">
                     @csrf
                     @method('PUT')
 
@@ -34,10 +34,10 @@
                         <button
                             type="submit"
                             form="delete-product-form"
-                            onclick="return confirm('Delete this product?');"
+                            onclick="return confirm('Move this product to Deleted Products? You can restore it later.');"
                             class="btn-danger"
                         >
-                            Delete Product
+                            Move to Deleted Products
                         </button>
 
                         <div class="form-action-group">
