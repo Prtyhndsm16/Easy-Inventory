@@ -39,7 +39,7 @@ class ProductRequest extends FormRequest
                 Rule::unique('products', 'barcode')->ignore($productKey, 'product_id'),
             ],
             'date_added'     => ['nullable', 'date'],
-            'product_image'  => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'product_image'  => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ];
     }
 }

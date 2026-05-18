@@ -33,7 +33,7 @@
                             accept="image/png,image/jpeg,image/webp"
                             class="block w-full text-sm text-gray-700 file:mr-4 file:rounded-lg file:border-0 file:bg-emerald-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-emerald-700"
                         >
-                        <p class="form-hint mt-2">Upload JPG, PNG, or WebP image up to 2MB.</p>
+                        <p class="form-hint mt-2">Upload JPG, PNG, or WebP image up to 5MB.</p>
                         <x-input-error class="mt-2" :messages="$errors->get('product_image')" />
                     </div>
                 </div>
