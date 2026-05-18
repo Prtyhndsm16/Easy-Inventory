@@ -29,10 +29,6 @@
                             <a href="{{ url('/dashboard') }}" class="inline-flex items-center rounded-lg bg-white px-4 py-2.5 font-semibold text-gray-950 transition hover:bg-emerald-50">
                                 Dashboard
                             </a>
-                        @else
-                            <a href="{{ route('login') }}" class="inline-flex items-center rounded-lg bg-white px-4 py-2.5 font-semibold text-gray-950 transition hover:bg-emerald-50">
-                                Log in
-                            </a>
                         @endauth
                     </div>
                 </nav>
