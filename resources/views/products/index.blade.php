@@ -112,6 +112,9 @@
                                                     >
                                                 @else
                                                     <span class="text-xs font-semibold text-gray-400">IMG</span>
+                                                    @if ($product->image_path)
+                                                        <div class="mt-1 text-[11px] text-gray-500 break-all">image_path: {{ $product->image_path }}</div>
+                                                    @endif
                                                 @endif
                                             </div>
                                             <div>

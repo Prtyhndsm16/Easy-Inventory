@@ -39,6 +39,14 @@ class DeletedProduct extends Model
             return null;
         }
 
-        return '/storage/'.ltrim($this->image_path, '/');
+        $path = str_replace('\\', '/', $this->image_path);
+
+        if (preg_match('/^https?:\/\//i', $path)) {
+            return $path;
+        }
+
+        $path = ltrim($path, '/');
+
+        return asset(str_starts_with($path, 'storage/') ? $path : 'storage/'.$path);
     }
 }
