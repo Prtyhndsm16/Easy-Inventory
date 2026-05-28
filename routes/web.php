@@ -14,6 +14,19 @@ use App\Http\Controllers\StaffProductController;
 use App\Http\Controllers\StockInController;
 use App\Http\Controllers\StockOutController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+
+Route::get('/storage/{path}', function (string $path) {
+    $path = ltrim(str_replace('\\', '/', $path), '/');
+
+    abort_if($path === '' || str_contains($path, '..'), 404);
+
+    $disk = Storage::disk('public');
+
+    abort_unless($disk->exists($path), 404);
+
+    return $disk->response($path);
+})->where('path', '.*')->name('storage.public');
 
 Route::get('/', function () {
     return view('welcome');

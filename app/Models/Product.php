@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\PublicStorage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -51,39 +52,7 @@ class Product extends Model
 
     public function imageUrl(): ?string
     {
-        if (! $this->image_path) {
-            \Illuminate\Support\Facades\Log::debug('Product imageUrl: no image_path', [
-                'product_id' => $this->product_id ?? null,
-                'product_name' => $this->product_name ?? null,
-            ]);
-
-            return null;
-        }
-
-        $path = str_replace('\\', '/', $this->image_path);
-
-        if (preg_match('/^https?:\/\//i', $path)) {
-            \Illuminate\Support\Facades\Log::debug('Product imageUrl: using absolute URL', [
-                'product_id' => $this->product_id ?? null,
-                'product_name' => $this->product_name ?? null,
-                'image_path' => $this->image_path,
-                'url' => $path,
-            ]);
-
-            return $path;
-        }
-
-        $path = ltrim($path, '/');
-        $url = asset(str_starts_with($path, 'storage/') ? $path : 'storage/'.$path);
-
-        \Illuminate\Support\Facades\Log::debug('Product imageUrl: built URL', [
-            'product_id' => $this->product_id ?? null,
-            'product_name' => $this->product_name ?? null,
-            'image_path' => $this->image_path,
-            'url' => $url,
-        ]);
-
-        return $url;
+        return PublicStorage::url($this->image_path);
     }
 
     public function saleItems(): HasMany

@@ -23,20 +23,11 @@
                 </div>
                 <div class="grid gap-6 p-4 sm:p-6 sm:grid-cols-2 lg:grid-cols-3">
 
-                    @if ($product->imageUrl())
+                    @if ($product->image_path)
                         <div class="sm:col-span-2 lg:col-span-1 flex justify-center lg:justify-start">
-                            <img src="{{ $product->imageUrl() }}" alt="{{ $product->product_name }}"
+                            <img src="{{ asset('storage/' . $product->image_path) }}" alt="Product Image"
                                  class="h-40 w-40 rounded-xl border border-gray-200 object-cover shadow-sm">
                         </div>
-                    @else
-                        @if ($product->image_path)
-                            <div class="sm:col-span-2 lg:col-span-1 flex justify-center lg:justify-start">
-                                <div class="h-40 w-40 rounded-xl border border-gray-200 bg-gray-50 flex items-center justify-center text-xs text-gray-500">
-                                    IMG
-                                </div>
-                                <div class="mt-2 text-[11px] text-gray-500 break-all">image_path: {{ $product->image_path }}</div>
-                            </div>
-                        @endif
                     @endif
 
                     <div class="grid gap-4 sm:grid-cols-2 sm:col-span-2">

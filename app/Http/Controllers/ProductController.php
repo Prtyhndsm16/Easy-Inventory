@@ -74,12 +74,14 @@ class ProductController extends Controller
     public function store(ProductRequest $request): RedirectResponse
     {
         $validated = $request->safe()->except('product_image');
+        $product = new Product($validated);
 
         if ($request->hasFile('product_image')) {
-            $validated['image_path'] = $request->file('product_image')->store('product-images', 'public');
+            $imagePath = $request->file('product_image')->store('product-images', 'public');
+            $product->image_path = $imagePath;
         }
 
-        $product = Product::create($validated);
+        $product->save();
 
         AuditLogger::record('product.created', 'success', [
             'product_name' => $product->product_name,
@@ -107,7 +109,8 @@ class ProductController extends Controller
                 Storage::disk('public')->delete($product->image_path);
             }
 
-            $validated['image_path'] = $request->file('product_image')->store('product-images', 'public');
+            $imagePath = $request->file('product_image')->store('product-images', 'public');
+            $product->image_path = $imagePath;
         }
 
         $product->fill($validated);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\PublicStorage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,18 +36,6 @@ class DeletedProduct extends Model
 
     public function imageUrl(): ?string
     {
-        if (! $this->image_path) {
-            return null;
-        }
-
-        $path = str_replace('\\', '/', $this->image_path);
-
-        if (preg_match('/^https?:\/\//i', $path)) {
-            return $path;
-        }
-
-        $path = ltrim($path, '/');
-
-        return asset(str_starts_with($path, 'storage/') ? $path : 'storage/'.$path);
+        return PublicStorage::url($this->image_path);
     }
 }

@@ -104,17 +104,14 @@
                                     <td>
                                         <div class="flex items-center gap-3">
                                             <div class="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
-                                                @if ($product->imageUrl())
+                                                @if ($product->image_path)
                                                     <img
-                                                        src="{{ $product->imageUrl() }}"
-                                                        alt="{{ $product->product_name }} image"
+                                                        src="{{ asset('storage/' . $product->image_path) }}"
+                                                        alt="Product Image"
                                                         class="h-full w-full object-cover"
                                                     >
                                                 @else
                                                     <span class="text-xs font-semibold text-gray-400">IMG</span>
-                                                    @if ($product->image_path)
-                                                        <div class="mt-1 text-[11px] text-gray-500 break-all">image_path: {{ $product->image_path }}</div>
-                                                    @endif
                                                 @endif
                                             </div>
                                             <div>

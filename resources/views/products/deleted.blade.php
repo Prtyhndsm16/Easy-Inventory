@@ -76,10 +76,10 @@
                                     <td>
                                         <div class="flex items-center gap-3">
                                             <div class="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
-                                                @if ($product->imageUrl())
+                                                @if ($product->image_path)
                                                     <img
-                                                        src="{{ $product->imageUrl() }}"
-                                                        alt="{{ $product->product_name }} image"
+                                                        src="{{ asset('storage/' . $product->image_path) }}"
+                                                        alt="Product Image"
                                                         class="h-full w-full object-cover"
                                                     >
                                                 @else

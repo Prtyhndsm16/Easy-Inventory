@@ -14,10 +14,10 @@
                 <x-input-label for="product_image" :value="__('Product Image')" />
                 <div class="grid gap-4 rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4 sm:grid-cols-[7rem_1fr] sm:items-center">
                     <div class="flex h-28 w-28 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-white">
-                        @if ($product->imageUrl())
+                        @if ($product->image_path)
                             <img
-                                src="{{ $product->imageUrl() }}"
-                                alt="{{ $product->product_name }} image"
+                                src="{{ asset('storage/' . $product->image_path) }}"
+                                alt="Product Image"
                                 class="h-full w-full object-cover"
                             >
                         @else

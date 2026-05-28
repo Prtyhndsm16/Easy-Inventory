@@ -103,9 +103,23 @@ class ProductImageUploadTest extends TestCase
             ->assertSee('/storage/'.$path);
     }
 
+    public function test_public_storage_route_serves_product_images_without_a_symlink(): void
+    {
+        Storage::fake('public');
+
+        $path = 'product-images/fallback.png';
+        Storage::disk('public')->put($path, base64_decode(
+            'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII='
+        ));
+
+        $this->get('/storage/'.$path)
+            ->assertOk()
+            ->assertHeader('content-disposition', 'inline; filename=fallback.png');
+    }
+
     private function fakePngUpload(string $name): UploadedFile
     {
-        $path = tempnam(sys_get_temp_dir(), 'product-image-');
+        $path = tempnam(sys_get_temp_dir(), 'product-images-');
 
         file_put_contents($path, base64_decode(
             'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII='
