@@ -1,0 +1,217 @@
+<nav x-data="{ open: false }" class="sticky top-0 z-40 border-b border-gray-200/80 bg-white/90 backdrop-blur">
+    <!-- Primary Navigation Menu -->
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 justify-between">
+            <div class="flex min-w-0">
+                <!-- Logo -->
+                <div class="flex shrink-0 items-center">
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
+                        <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-600 text-white shadow-sm">
+                            <x-application-logo class="h-7 w-7" />
+                        </span>
+                        <span class="hidden sm:block">
+                            <span class="block text-sm font-semibold text-gray-950">Easy Inventory</span>
+                            <span class="block text-xs text-gray-500">Manager</span>
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden items-center gap-2 lg:ms-8 lg:flex">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard', 'admin.dashboard', 'staff.dashboard')">
+                        {{ Auth::user()->isAdmin() ? __('Admin Dashboard') : __('Staff Dashboard') }}
+                    </x-nav-link>
+
+                    @if (Auth::user()->isAdmin())
+                        <x-nav-link :href="route('cashiering.index')" :active="request()->routeIs('cashiering.*')">
+                            {{ __('Cashiering') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.*')">
+                            {{ __('Products') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.audit-logs.index')" :active="request()->routeIs('admin.audit-logs.*')">
+                            {{ __('Audit Logs') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.stock-in.index')" :active="request()->routeIs('admin.stock-in.*')">
+                            {{ __('Stock In') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.stock-out.index')" :active="request()->routeIs('admin.stock-out.*')">
+                            {{ __('Stock Out') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.sales.index')" :active="request()->routeIs('admin.sales.*')">
+                            {{ __('Sales') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.reports.index')" :active="request()->routeIs('admin.reports.*')">
+                            {{ __('Reports') }}
+                        </x-nav-link>
+                    @elseif (Auth::user()->isStaff())
+                        <x-nav-link :href="route('staff.products.index')" :active="request()->routeIs('staff.products.*')">
+                            {{ __('Inventory') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('cashiering.index')" :active="request()->routeIs('cashiering.*')">
+                            {{ __('Cashiering') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.stock-in.index')" :active="request()->routeIs('admin.stock-in.*')">
+                            {{ __('Stock In') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.stock-out.index')" :active="request()->routeIs('admin.stock-out.*')">
+                            {{ __('Stock Out') }}
+                        </x-nav-link>
+                    @endif
+                </div>
+            </div>
+
+            <!-- Settings Dropdown -->
+            <div class="hidden lg:ms-6 lg:flex lg:items-center">
+                <x-dropdown align="right" width="48">
+                    <x-slot name="trigger">
+                        <button class="inline-flex items-center gap-3 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm transition hover:bg-gray-50 hover:text-gray-950 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                            <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-xs font-semibold uppercase text-gray-700">
+                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                            </span>
+                            <span class="min-w-0 text-left">
+                                <span class="block max-w-40 truncate">{{ Auth::user()->name }}</span>
+                                <span class="block text-xs font-medium text-gray-500">{{ ucfirst(Auth::user()->role) }}</span>
+                            </span>
+
+                            <span>
+                                <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                        </button>
+                    </x-slot>
+
+                    <x-slot name="content">
+                        <x-dropdown-link :href="route('profile.edit')">
+                            {{ __('Profile') }}
+                        </x-dropdown-link>
+
+                        <!-- Authentication -->
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-dropdown-link :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-dropdown-link>
+                        </form>
+                    </x-slot>
+                </x-dropdown>
+            </div>
+
+            <!-- Hamburger -->
+            <div class="-me-2 flex items-center lg:hidden">
+                <button @click="open = ! open" class="inline-flex items-center justify-center rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Responsive Navigation Menu -->
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden border-t border-gray-100 bg-white lg:hidden">
+        <div class="space-y-1 pb-3 pt-2">
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard', 'admin.dashboard', 'staff.dashboard')">
+                {{ Auth::user()->isAdmin() ? __('Admin Dashboard') : __('Staff Dashboard') }}
+            </x-responsive-nav-link>
+
+            @if (Auth::user()->isAdmin())
+                <x-responsive-nav-link :href="route('cashiering.index')" :active="request()->routeIs('cashiering.*')">
+                    {{ __('Cashiering') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.*')">
+                    {{ __('Products') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                    {{ __('Users') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.audit-logs.index')" :active="request()->routeIs('admin.audit-logs.*')">
+                    {{ __('Audit Logs') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.stock-in.index')" :active="request()->routeIs('admin.stock-in.*')">
+                    {{ __('Stock In') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.stock-out.index')" :active="request()->routeIs('admin.stock-out.*')">
+                    {{ __('Stock Out') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.sales.index')" :active="request()->routeIs('admin.sales.*')">
+                    {{ __('Sales') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.reports.index')" :active="request()->routeIs('admin.reports.*')">
+                    {{ __('Reports') }}
+                </x-responsive-nav-link>
+            @elseif (Auth::user()->isStaff())
+                <x-responsive-nav-link :href="route('staff.products.index')" :active="request()->routeIs('staff.products.*')">
+                    {{ __('Inventory') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('cashiering.index')" :active="request()->routeIs('cashiering.*')">
+                    {{ __('Cashiering') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.stock-in.index')" :active="request()->routeIs('admin.stock-in.*')">
+                    {{ __('Stock In') }}
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('admin.stock-out.index')" :active="request()->routeIs('admin.stock-out.*')">
+                    {{ __('Stock Out') }}
+                </x-responsive-nav-link>
+            @endif
+        </div>
+
+        <!-- Responsive Settings Options -->
+        <div class="border-t border-gray-200 pb-1 pt-4">
+            <div class="flex min-w-0 items-center gap-3 px-4">
+                <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-sm font-semibold uppercase text-emerald-800">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                </span>
+                <div class="min-w-0">
+                    <div class="truncate text-base font-semibold text-gray-900">{{ Auth::user()->name }}</div>
+                    <div class="truncate text-sm font-medium text-gray-500">{{ Auth::user()->email }}</div>
+                </div>
+            </div>
+
+            <div class="mt-3 space-y-1">
+                <x-responsive-nav-link :href="route('profile.edit')">
+                    {{ __('Profile') }}
+                </x-responsive-nav-link>
+
+                <!-- Authentication -->
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <x-responsive-nav-link :href="route('logout')"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-responsive-nav-link>
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>

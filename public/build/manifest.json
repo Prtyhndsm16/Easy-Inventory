@@ -1,0 +1,42 @@
+{
+  "node_modules/@zxing/browser/esm/index.js": {
+    "file": "assets/index-D6WPuxkD.js",
+    "name": "index",
+    "src": "node_modules/@zxing/browser/esm/index.js",
+    "isDynamicEntry": true,
+    "imports": [
+      "node_modules/@zxing/library/esm/index.js"
+    ]
+  },
+  "node_modules/@zxing/library/esm/index.js": {
+    "file": "assets/index-DSN73KLr.js",
+    "name": "index",
+    "src": "node_modules/@zxing/library/esm/index.js",
+    "isDynamicEntry": true
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-CLP8EUxh.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-BS8lzUxx.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "node_modules/@zxing/browser/esm/index.js",
+      "node_modules/@zxing/library/esm/index.js",
+      "node_modules/@zxing/browser/esm/index.js",
+      "node_modules/@zxing/library/esm/index.js",
+      "node_modules/@zxing/browser/esm/index.js",
+      "node_modules/@zxing/library/esm/index.js",
+      "node_modules/@zxing/browser/esm/index.js",
+      "node_modules/@zxing/library/esm/index.js"
+    ]
+  }
+}
